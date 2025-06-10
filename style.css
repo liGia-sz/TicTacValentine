@@ -1,0 +1,63 @@
+````css
+/* filepath: c:\Users\Alunos\Documents\LÍGIA (MANHÃ)\TicTacValentine\style.css */
+body {
+  background: #ffe6ec;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+}
+h1 {
+  color: #d72660;
+  margin-bottom: 10px;
+}
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 80px);
+  grid-gap: 10px;
+  margin: 20px 0;
+}
+.cell {
+  width: 80px;
+  height: 80px;
+  background: #fff;
+  border: 2px solid #d72660;
+  border-radius: 12px;
+  font-size: 2.5rem;
+  color: #d72660;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.cell:hover {
+  background: #ffe0f0;
+}
+.status {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+.restart-btn {
+  background: #d72660;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.2s;
+}
+.restart-btn:hover {
+  background: #a81d4d;
+}
+.footer {
+  margin-top: 30px;
+  color: #a81d4d;
+  font-size: 0.9rem;
+}
