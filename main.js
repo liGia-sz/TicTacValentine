@@ -9,8 +9,14 @@ function renderBoard() {
   board.forEach((cell, idx) => {
     const cellDiv = document.createElement('div');
     cellDiv.className = 'cell';
-    cellDiv.textContent = cell ? cell : '';
-    // Só permite clique se for vez do X e a célula estiver vazia
+    if (cell === 'X' || cell === 'O') {
+      const img = document.createElement('img');
+      img.src = `img/${cell}.png`;
+      img.alt = cell;
+      img.style.width = '60%';
+      img.style.height = '60%';
+      cellDiv.appendChild(img);
+    }
     cellDiv.onclick = () => {
       if (xIsNext && !cell && !gameOver) handleClick(idx);
     };
