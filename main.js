@@ -10,15 +10,44 @@ function renderBoard() {
     const cellDiv = document.createElement('div');
     cellDiv.className = 'cell';
     cellDiv.textContent = cell ? cell : '';
-    cellDiv.onclick = () => handleClick(idx);
+    // Só permite clique se for vez do X e a célula estiver vazia
+    cellDiv.onclick = () => {
+      if (xIsNext && !cell && !gameOver) handleClick(idx);
+    };
     boardElement.appendChild(cellDiv);
   });
 }
 
 function handleClick(idx) {
-  if (board[idx] || gameOver) return;
-  board[idx] = xIsNext ? 'X' : 'O';
-  xIsNext = !xIsNext;
+  if (board[idx] || gameOver || !xIsNext) return;
+  board[idx] = 'X';
+  xIsNext = false;
+  renderBoard();
+  const winner = calculateWinner(board);
+  if (winner) {
+    statusElement.textContent = `Vitória de: ${winner} 🎉`;
+    gameOver = true;
+    return;
+  } else if (board.every(cell => cell)) {
+    statusElement.textContent = 'Empate! 😍';
+    gameOver = true;
+    return;
+  } else {
+    statusElement.textContent = `Vez de: O`;
+    // O joga automaticamente após pequena pausa
+    setTimeout(botMove, 500);
+  }
+}
+
+function botMove() {
+  if (gameOver) return;
+  // Encontra todas as casas vazias
+  const emptyCells = board.map((cell, idx) => cell ? null : idx).filter(idx => idx !== null);
+  if (emptyCells.length === 0) return;
+  // Escolhe uma posição aleatória
+  const move = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+  board[move] = 'O';
+  xIsNext = true;
   renderBoard();
   const winner = calculateWinner(board);
   if (winner) {
@@ -28,7 +57,7 @@ function handleClick(idx) {
     statusElement.textContent = 'Empate! 😍';
     gameOver = true;
   } else {
-    statusElement.textContent = `Vez de: ${xIsNext ? 'X' : 'O'}`;
+    statusElement.textContent = `Vez de: X`;
   }
 }
 

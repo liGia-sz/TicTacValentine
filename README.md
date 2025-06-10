@@ -1,3 +1,4 @@
 # TicTacValentine
-Jogo da velha costumizado para o Dia dos Namorados;
-![alt text](image.png)
+Jogo da velha customizado para o Dia dos Namorados
+
+![Exemplo inicial](img/exemplo%20inicial.png)
