@@ -24,6 +24,18 @@ function renderBoard() {
   });
 }
 
+function showFinalMessage(message, gifSrc = null, premio = null) {
+  let html = `<div class="final-message" style="display:flex; flex-direction:column; align-items:center;">`;
+  html += `<div style="margin-bottom:16px;">${message}</div>`;
+  if (gifSrc) {
+    html += `<div style="text-align:center;"><img src="${gifSrc}" alt="gif vitória" style="max-width:220px; border-radius:12px; margin:20px 0;"></div>`;
+  }
+  if (premio) {
+    html += `<div class="premio" style="color:#a81d4d; font-size:1.2rem; margin-top:8px;">${premio}</div>`;
+  }
+  boardElement.innerHTML = html;
+}
+
 function handleClick(idx) {
   if (board[idx] || gameOver || !xIsNext) return;
   board[idx] = 'X';
@@ -31,35 +43,68 @@ function handleClick(idx) {
   renderBoard();
   const winner = calculateWinner(board);
   if (winner) {
+    if (winner === 'X') {
+      showFinalMessage(
+        'Você ganhou! 🎉',
+        'img/Final.gif',
+        'Prêmio: Jantar + escolha de filmes/séries sem questionamentos + massagem 💖'
+      );
+    } else {
+      showFinalMessage(
+        'Você perdeu! 😢',
+        'img/Final.gif',
+        'Prêmio: Caixinha de doces 🍬'
+      );
+    }
     statusElement.textContent = `Vitória de: ${winner} 🎉`;
     gameOver = true;
     return;
   } else if (board.every(cell => cell)) {
+    showFinalMessage(
+      'Empate! 😍',
+      'img/Final.gif',
+      'Prêmio: Date de Massinha 💆‍♀️💆'
+    );
     statusElement.textContent = 'Empate! 😍';
     gameOver = true;
     return;
   } else {
     statusElement.textContent = `Vez de: O`;
-    // O joga automaticamente após pequena pausa
     setTimeout(botMove, 500);
   }
 }
 
 function botMove() {
   if (gameOver) return;
-  // Encontra todas as casas vazias
   const emptyCells = board.map((cell, idx) => cell ? null : idx).filter(idx => idx !== null);
   if (emptyCells.length === 0) return;
-  // Escolhe uma posição aleatória
   const move = emptyCells[Math.floor(Math.random() * emptyCells.length)];
   board[move] = 'O';
   xIsNext = true;
   renderBoard();
   const winner = calculateWinner(board);
   if (winner) {
+    if (winner === 'X') {
+      showFinalMessage(
+        'Você ganhou! 🎉',
+        'img/Final.gif',
+        'Prêmio: Jantar + escolha de filmes/séries sem questionamentos + massagem 💖'
+      );
+    } else {
+      showFinalMessage(
+        'Você perdeu! 😢',
+        'img/Final.gif',
+        'Prêmio: Caixinha de doces 🍬'
+      );
+    }
     statusElement.textContent = `Vitória de: ${winner} 🎉`;
     gameOver = true;
   } else if (board.every(cell => cell)) {
+    showFinalMessage(
+      'Empate! 😍',
+      'img/Final.gif',
+      'Prêmio: Date de Massinha 💆‍♀️💆'
+    );
     statusElement.textContent = 'Empate! 😍';
     gameOver = true;
   } else {

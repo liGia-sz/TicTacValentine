@@ -60,3 +60,9 @@ h1 {
   color: #a81d4d;
   font-size: 0.9rem;
 }
+.final-message {
+  font-size: 2rem;
+  color: #d72660;
+  text-align: center;
+  padding: 40px 0;
+}
