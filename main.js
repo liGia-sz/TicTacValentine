@@ -25,7 +25,13 @@ function renderBoard() {
 }
 
 function showFinalMessage(message, gifSrc = null, premio = null) {
-  let html = `<div class="final-message" style="display:flex; flex-direction:column; align-items:center;">`;
+  document.getElementById('status').style.display = 'none';
+  document.getElementById('board').style.display = 'flex';
+
+  // Mostra apenas a mensagem final (sem título duplicado)
+  let html = `<div class="final-message" style="display:flex; flex-direction:column; align-items:center; padding:60px 10vw;">`;
+  // REMOVA ou comente a linha abaixo:
+  // html += `<h1 style="color:#d72660; margin-bottom:24px; text-align:center; width:100%;">Jogo da Velha 💖</h1>`;
   html += `<div style="margin-bottom:16px;">${message}</div>`;
   if (gifSrc) {
     html += `<div style="text-align:center;"><img src="${gifSrc}" alt="gif vitória" style="max-width:220px; border-radius:12px; margin:20px 0;"></div>`;
@@ -33,6 +39,13 @@ function showFinalMessage(message, gifSrc = null, premio = null) {
   if (premio) {
     html += `<div class="premio" style="color:#a81d4d; font-size:1.2rem; margin-top:8px;">${premio}</div>`;
   }
+  html += `
+    <div class="result-actions">
+      <button class="restart-btn" id="restart-btn-final" onclick="restartGame()">Reiniciar</button>
+      <div class="footer" id="footer-final">Feito com 💕 para o Dia dos Namorados</div>
+    </div>
+  `;
+  html += `</div>`;
   boardElement.innerHTML = html;
 }
 
@@ -47,25 +60,23 @@ function handleClick(idx) {
       showFinalMessage(
         'Você ganhou! 🎉',
         'img/Final.gif',
-        'Prêmio: Jantar + escolha de filmes/séries sem questionamentos + massagem 💖'
+        'E o prêmio é o combo perfeito para nós dois: Um jantar romântico, filmes ou séries da sua escolha e uma massagem para aliviar qualquer cansaço. Te amo!💖'
       );
     } else {
       showFinalMessage(
         'Você perdeu! 😢',
         'img/Final.gif',
-        'Prêmio: Caixinha de doces 🍬'
+        'Meu amor, você não ganhou o jogo, mas ganhou meu coração e uma caixinha de doces deliciosa para compensar! Vamos adoçar essa "derrota" juntos? 🍬'
       );
     }
-    statusElement.textContent = `Vitória de: ${winner} 🎉`;
     gameOver = true;
     return;
   } else if (board.every(cell => cell)) {
     showFinalMessage(
-      'Empate! 😍',
+      'Não ganhou, nem perdeu! 😍',
       'img/Final.gif',
-      'Prêmio: Date de Massinha 💆‍♀️💆'
+      'Isso só significa que somos uma dupla imbatível, mesmo quando competimos. E para celebrar, nosso prêmio é um divertido date de massinha. Mal posso esperar para ver o que vamos criar!'
     );
-    statusElement.textContent = 'Empate! 😍';
     gameOver = true;
     return;
   } else {
@@ -97,7 +108,6 @@ function botMove() {
         'Prêmio: Caixinha de doces 🍬'
       );
     }
-    statusElement.textContent = `Vitória de: ${winner} 🎉`;
     gameOver = true;
   } else if (board.every(cell => cell)) {
     showFinalMessage(
@@ -105,7 +115,6 @@ function botMove() {
       'img/Final.gif',
       'Prêmio: Date de Massinha 💆‍♀️💆'
     );
-    statusElement.textContent = 'Empate! 😍';
     gameOver = true;
   } else {
     statusElement.textContent = `Vez de: X`;
@@ -132,6 +141,8 @@ function restartGame() {
   xIsNext = true;
   gameOver = false;
   statusElement.textContent = 'Vez de: X';
+  document.getElementById('status').style.display = 'flex';
+  document.getElementById('board').style.display = 'grid';
   renderBoard();
 }
 
